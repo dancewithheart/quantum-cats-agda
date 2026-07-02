@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+concurrency:
+  group: security-code-scanning-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: wenkokke/setup-agda@v2
+        with:
+          agda-stdlib-version: 'recommended'
+
+      - run: agda QuantumCat/DaggerCategory.agda
+        working-directory: src
+
+      - uses: cachix/install-nix-action@v30
+      - run: nix develop
