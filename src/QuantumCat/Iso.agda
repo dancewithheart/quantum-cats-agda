@@ -4,6 +4,11 @@ open import QuantumCat.Common using (Type; Universe)
 open import QuantumCat.Category using (Category)
 open import Agda.Builtin.Equality using (_≡_)
 
+{-
+Isomorphism in a category
+
+https://ncatlab.org/nlab/show/isomorphism
+-}
 record Iso
     {u w : Universe}
     (C : Category u w)

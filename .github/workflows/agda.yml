@@ -25,5 +25,8 @@ jobs:
       - run: agda QuantumCat/DaggerCategory.agda
         working-directory: src
 
+      - run: agda QuantumCat/MonoidalCategory.agda
+        working-directory: src
+
       - uses: cachix/install-nix-action@v30
       - run: nix develop

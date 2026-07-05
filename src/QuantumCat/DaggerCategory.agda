@@ -12,8 +12,9 @@ Dagger category is a category C equipped with and involutive contravariant endof
 - that is involution: (f †) † = f
 - preserve identity: id † = id
 - preserver composition
+
+https://ncatlab.org/nlab/show/dagger+category
 -}
--- https://ncatlab.org/nlab/show/dagger+category
 record DaggerCategory
     {u w : Universe}
     (Base : Category u w) : Type (usuc (u umax w)) where

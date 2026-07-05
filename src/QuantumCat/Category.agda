@@ -3,6 +3,11 @@ module QuantumCat.Category where
 open import QuantumCat.Common using (Type; Universe; usuc; _umax_)
 open import Agda.Builtin.Equality using (_≡_)
 
+{-
+Category
+
+https://ncatlab.org/nlab/show/category
+-}
 record Category (u w : Universe) : Type (usuc (u umax w)) where
   field
     -- types
