@@ -28,5 +28,11 @@ jobs:
       - run: agda QuantumCat/BraidedMonoidalCategory.agda
         working-directory: src
 
+      - run: agda QuantumCat/ProductCategory.agda
+        working-directory: src
+
+      - run: agda QuantumCat/Functor.agda
+        working-directory: src
+
       - uses: cachix/install-nix-action@v30
       - run: nix develop
