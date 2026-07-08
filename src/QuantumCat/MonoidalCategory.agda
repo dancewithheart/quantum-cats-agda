@@ -19,10 +19,8 @@ A Monoidal category consists of:
 such that following diagrams commute:
 - pentagon equation
 
-               a(W,X,Y)⊗id(Z)                 a(W,X⊗Y,Z)
-((W⊗X)⊗Y)⊗Z ---------------> (W⊗(X⊗Y))⊗Z ------------> W⊗((X⊗Y)⊗Z) ---
-     id(W)⊗a(X,Y,Z)
-    ---------------> W⊗(X⊗(Y⊗Z))
+             a(W,X,Y)⊗id(Z)               a(W,X⊗Y,Z)                id(W)⊗a(X,Y,Z
+((W⊗X)⊗Y)⊗Z ----------------> (W⊗(X⊗Y))⊗Z -----------> W⊗((X⊗Y)⊗Z) ---------------> W⊗(X⊗(Y⊗Z))
 
 
                a(W⊗X,Y,Z)                 a(W,X,Y⊗Z)
@@ -48,9 +46,9 @@ record MonoidalCategory {u w : Universe} (M : Category u w) : Type (usuc (u umax
     -- operations
     _⊗O_ : (x : Obj) -> (y : Obj) -> Obj -- tensor product on objects
     _⊗H_ : {A1 A2 B1 B2 : Obj} ->
-      (f : Hom A1 B1) ->
-      (g : Hom A2 B2) ->
-      Hom (A1 ⊗O A2) (B1 ⊗O B2) -- tensor product on morphisms
+      (f : A1 => B1) ->
+      (g : A2 => B2) ->
+      (A1 ⊗O A2) => (B1 ⊗O B2) -- tensor product on morphisms
 
     I : Obj
 
@@ -61,13 +59,16 @@ record MonoidalCategory {u w : Universe} (M : Category u w) : Type (usuc (u umax
     right-unitor : {X : Obj} ->
       Iso M (X ⊗O I) X
 
-  a : {X Y Z : Obj} -> Hom ((X ⊗O Y) ⊗O Z) (X ⊗O (Y ⊗O Z))
-  a = to associator 
+  a : {X Y Z : Obj} -> ((X ⊗O Y) ⊗O Z) => (X ⊗O (Y ⊗O Z))
+  a = to associator
 
-  l : {X : Obj} -> Hom (I ⊗O X) X
+  a⁻¹ : {X Y Z : Obj} -> (X ⊗O (Y ⊗O Z)) => ((X ⊗O Y) ⊗O Z)
+  a⁻¹ = from associator
+
+  l : {X : Obj} -> (I ⊗O X) => X
   l = to left-unitor
 
-  r : {X : Obj} -> Hom (X ⊗O I) X
+  r : {X : Obj} -> (X ⊗O I) => X
   r = to right-unitor
 
   field
@@ -77,29 +78,29 @@ record MonoidalCategory {u w : Universe} (M : Category u w) : Type (usuc (u umax
       (id{A} ⊗H id{B}) ≡ id{A ⊗O B}
     -- tensor product is functorial - preserve composition
     tensor-compose : {A B C D E F : Obj} ->
-      (f : Hom A B) ->
-      (g : Hom B C) ->
-      (h : Hom D E) ->
-      (i : Hom E F) ->
+      (f : A => B) ->
+      (g : B => C) ->
+      (h : D => E) ->
+      (i : E => F) ->
       ((f >>> g) ⊗H (h >>> i))
          ≡
       ((f ⊗H h) >>> (g ⊗H i))
 
     -- associator naturality
     associator-natural : {A0 A1 B0 B1 C0 C1 : Obj} ->
-      (f : Hom A0 A1) (g : Hom B0 B1) (h : Hom C0 C1) ->
+      (f : A0 => A1) (g : B0 => B1) (h : C0 => C1) ->
       (a {A0} {B0} {C0}) >>> (f ⊗H (g ⊗H h))
         ≡
       ((f ⊗H g) ⊗H h) >>> a {A1} {B1} {C1}
 
     -- left unitor naturality
-    left-unitor-natural : {A B : Obj} (f : Hom A B) ->
+    left-unitor-natural : {A B : Obj} (f : A => B) ->
       l{A} >>> f
         ≡
       (id{I} ⊗H f) >>> l{B}
 
     -- right unitor naturality
-    right-unitor-natural : {A B : Obj} (f : Hom A B) ->
+    right-unitor-natural : {A B : Obj} (f : A => B) ->
       r{A} >>> f
         ≡
       (f ⊗H id{I}) >>> r{B}
@@ -112,4 +113,4 @@ record MonoidalCategory {u w : Universe} (M : Category u w) : Type (usuc (u umax
     pentagon : {W X Y Z : Obj} ->
       a{W ⊗O X}{Y}{Z} >>> a{W}{X}{Y ⊗O Z}
         ≡
-      (a{W}{X}{Y} ⊗H id{Z}) >>> (a {W}{X ⊗O Y}{Z} >>> (id{W} ⊗H  a{X}{Y}{Z}))
+      (a{W}{X}{Y} ⊗H id{Z}) >>> (a {W}{X ⊗O Y}{Z} >>> (id{W} ⊗H a{X}{Y}{Z}))
