@@ -1,3 +1,4 @@
+{-# OPTIONS --exact-split --safe #-}
 module QuantumCat.Common where
 
 open import Agda.Primitive public renaming
