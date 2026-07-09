@@ -28,6 +28,9 @@ jobs:
       - run: agda QuantumCat/BraidedMonoidalCategory.agda
         working-directory: src
 
+      - run: agda QuantumCat/SpecialFrobeniusAlgebra.agda
+        working-directory: src
+
       - run: agda QuantumCat/ProductCategory.agda
         working-directory: src
 

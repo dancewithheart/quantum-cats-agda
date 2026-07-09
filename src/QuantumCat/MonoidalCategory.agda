@@ -1,3 +1,4 @@
+{-# OPTIONS --exact-split --safe #-}
 module QuantumCat.MonoidalCategory where
 
 open import QuantumCat.Common using (Type; Universe; usuc; _umax_)
@@ -19,7 +20,7 @@ A Monoidal category consists of:
 such that following diagrams commute:
 - pentagon equation
 
-             a(W,X,Y)⊗id(Z)               a(W,X⊗Y,Z)                id(W)⊗a(X,Y,Z
+             a(W,X,Y)⊗id(Z)               a(W,X⊗Y,Z)                id(W)⊗a(X,Y,Z)
 ((W⊗X)⊗Y)⊗Z ----------------> (W⊗(X⊗Y))⊗Z -----------> W⊗((X⊗Y)⊗Z) ---------------> W⊗(X⊗(Y⊗Z))
 
 
@@ -61,15 +62,18 @@ record MonoidalCategory {u w : Universe} (M : Category u w) : Type (usuc (u umax
 
   a : {X Y Z : Obj} -> ((X ⊗O Y) ⊗O Z) => (X ⊗O (Y ⊗O Z))
   a = to associator
-
   a⁻¹ : {X Y Z : Obj} -> (X ⊗O (Y ⊗O Z)) => ((X ⊗O Y) ⊗O Z)
   a⁻¹ = from associator
 
   l : {X : Obj} -> (I ⊗O X) => X
   l = to left-unitor
+  l⁻¹ : {X : Obj} -> X => (I ⊗O X)
+  l⁻¹ {X} = from left-unitor
 
   r : {X : Obj} -> (X ⊗O I) => X
   r = to right-unitor
+  r⁻¹ : {X : Obj} -> X => (X ⊗O I)
+  r⁻¹ = from right-unitor
 
   field
     -- laws

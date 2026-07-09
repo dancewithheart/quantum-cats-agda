@@ -1,3 +1,4 @@
+{-# OPTIONS --exact-split --safe #-}
 module QuantumCat.Iso where
 
 open import QuantumCat.Common using (Type; Universe)
