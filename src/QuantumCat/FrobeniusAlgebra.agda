@@ -39,14 +39,19 @@ such that:
    A⊗1 -------------> A⊗A -------> A
          right-unitor
    A⊗1 --------------> A
-       
-   
 
  2. (A,cm,cu) is a comonoid
  3. the Frobenius laws hold:
-    (id(A) ⊗ merge) . (copy ⊗ id(A)
-    = copy . merge
-    = (merge ⊗ id(A)) ⊗ (id(A) ⊗ copy)
+
+       copy⊗id             a             id⊗merge
+  A⊗A ---------> (A⊗A)⊗A --> A⊗(A⊗A) -----------> A⊗A
+  
+        copy            merge
+  A⊗A ------> A⊗(A⊗A)------> A⊗A
+
+        id⊗copy            a-1               merge⊗id
+  A⊗A ---------->A⊗(A⊗A) ------> (A⊗A)⊗A ----------> A⊗A
+  
 
 https://ncatlab.org/nlab/show/Frobenius+algebra
 -}
@@ -65,22 +70,22 @@ record FrobeniusAlgebra
 
   -- monoid object laws - helpers
   monoid-assoc-left : ((A ⊗O A) ⊗O A) => A
-  monoid-assoc-left = (merge ⊗H id{A}) >>> merge
+  monoid-assoc-left = (merge ⊗H id) >>> merge
   
   monoid-assoc-right : ((A ⊗O A) ⊗O A) => A
-  monoid-assoc-right = a{A}{A}{A} >>> (id{A} ⊗H merge) >>> merge
+  monoid-assoc-right = a >>> (id ⊗H merge) >>> merge
 
   monoid-left-unit-path : (I ⊗O A) => A
-  monoid-left-unit-path = (create ⊗H id{A}) >>> merge
+  monoid-left-unit-path = (create ⊗H id) >>> merge
 
   monoid-right-unit-path : (A ⊗O I) => A
-  monoid-right-unit-path = (id{A} ⊗H create) >>> merge
+  monoid-right-unit-path = (id ⊗H create) >>> merge
 
   field
     -- monoid object diagrams
     monoid-assoc-law : monoid-assoc-left ≡ monoid-assoc-right
-    monoid-left-unit-law : monoid-left-unit-path ≡ l{A}
-    monoid-right-unit-law : monoid-right-unit-path ≡ r{A}
+    monoid-left-unit-law : monoid-left-unit-path ≡ l
+    monoid-right-unit-law : monoid-right-unit-path ≡ r
 
   -- comonoid object laws - helpers
   comonoid-coassoc-left : A => (A ⊗O (A ⊗O A))
@@ -90,30 +95,26 @@ record FrobeniusAlgebra
   comonoid-coassoc-right = copy >>> (id{A} ⊗H copy)
 
   comonoid-left-counit-path : A => A
-  comonoid-left-counit-path = copy >>> (delete ⊗H id{A}) >>> l{A}
+  comonoid-left-counit-path = copy >>> (delete ⊗H id) >>> l
 
   comonoid-right-counit-path : A => A
-  comonoid-right-counit-path = copy >>> (id{A} ⊗H delete) >>> r{A}
+  comonoid-right-counit-path = copy >>> (id ⊗H delete) >>> r
 
   field
     -- comonoid objectlaws diagrams
     comonoid-assoc-law : comonoid-coassoc-left ≡ comonoid-coassoc-right
-    comonoid-left-counit-law : comonoid-left-counit-path ≡ id{A}
-    comonoid-right-counit-law : comonoid-right-counit-path ≡ id{A}
+    comonoid-left-counit-law : comonoid-left-counit-path ≡ id
+    comonoid-right-counit-law : comonoid-right-counit-path ≡ id
 
   -- Frobenius law - helpers
   frobenius-middle : (A ⊗O A) => (A ⊗O A)
   frobenius-middle = merge >>> copy
 
   frobenius-left : (A ⊗O A) => (A ⊗O A)
-  frobenius-left = (copy ⊗H id{A})
-    >>> a{A}{A}{A}
-    >>> (id{A} ⊗H merge)
+  frobenius-left = (copy ⊗H id) >>> a >>> (id ⊗H merge)
 
   frobenius-right : (A ⊗O A) => (A ⊗O A)
-  frobenius-right = (id{A} ⊗H copy)
-    >>> a⁻¹{A}{A}{A}
-    >>> (merge ⊗H id{A})
+  frobenius-right = (id ⊗H copy) >>> a⁻¹ >>> (merge ⊗H id)
 
   field
     -- Frobenius law - diagrams
