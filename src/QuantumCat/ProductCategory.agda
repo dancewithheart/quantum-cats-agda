@@ -1,3 +1,4 @@
+{-# OPTIONS --exact-split --safe #-}
 module QuantumCat.ProductCategory where
 
 open import Agda.Builtin.Equality using (_≡_; refl)
