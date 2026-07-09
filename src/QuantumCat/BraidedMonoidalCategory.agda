@@ -10,7 +10,7 @@ open import QuantumCat.MonoidalCategory using (MonoidalCategory)
 A braided monoidal category consists of:
 * a monoidal category M
 * a natural isomorphism called the braiding: B(X,Y): X⊗Y -> Y⊗X
-such that these two diagrams commute, colled hexagon equations:
+such that these two diagrams commute, called hexagon equations:
 
           a⁻¹(X,Y,Z)             B(X,Y)⊗Z
 X⊗(Y⊗Z) -----------> (X⊗Y)⊗Z ----------> (Y⊗X)⊗Z
@@ -59,4 +59,3 @@ record BraidedMonoidalCategory
       a{X}{Y}{Z} >>> ( id{X} ⊗H B{Y}{Z} ) >>> a⁻¹{X}{Z}{Y}
         >>> ( B{X}{Z} ⊗H id{Y} )
         >>> a{Z}{X}{Y}
-      
