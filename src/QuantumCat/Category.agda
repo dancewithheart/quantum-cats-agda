@@ -18,25 +18,28 @@ such that:
   fg(h)=f(gh)
 
 https://ncatlab.org/nlab/show/category
+
+ACT Course - Lecture 34 - Categories - John Baez
+https://math.ucr.edu/home/baez/act_course/lecture_34.html
 -}
 record Category (u w : Universe) : Type (usuc (u umax w)) where
   infixl 20 _>>>_
   field
     -- types
     Obj : Type u -- type of objects
-    Hom : (X : Obj) -> (Y : Obj) -> Type w -- type of morphisms (home object, 1-cell)
+    _=>_ : (X : Obj) -> (Y : Obj) -> Type w -- type of morphisms (home type, 1-cell)
 
     -- operations
-    id    : {X : Obj} -> Hom X X -- identify morphism on object X
-    _>>>_ : {A B C : Obj} -> Hom A B -> Hom B C -> Hom A C -- composition of morphisms
+    id    : {X : Obj} -> X => X -- identify morphism on object X
+    _>>>_ : {A B C : Obj} -> A => B -> B => C -> A => C -- composition of morphisms
     
     -- laws
-    cat-left-id : ∀ {A B : Obj} (f : Hom A B)
+    cat-left-id : ∀ {A B : Obj} (f : A => B)
       -> id {A} >>> f ≡ f
-    cat-right-id : ∀ {A B : Obj} (f : Hom A B)
+    cat-right-id : ∀ {A B : Obj} (f : A => B)
       -> f >>> id {B} ≡ f
-    cat-associativity : ∀ {A B C D : Obj} (f : Hom A B) (g : Hom B C) (h : Hom C D)
+    cat-assoc : ∀ {A B C D : Obj} (f : A => B) (g : B => C) (h : C => D)
       -> f >>> (g >>> h) ≡ (f >>> g) >>> h
 
   -- aliases useful when Hom works like a function
-  _=>_ = Hom
+  Hom = _=>_
