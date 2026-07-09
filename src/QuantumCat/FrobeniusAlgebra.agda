@@ -102,7 +102,7 @@ record FrobeniusAlgebra
 
   field
     -- comonoid objectlaws diagrams
-    comonoid-assoc-law : comonoid-coassoc-left ≡ comonoid-coassoc-right
+    comonoid-coassoc-law : comonoid-coassoc-left ≡ comonoid-coassoc-right
     comonoid-left-counit-law : comonoid-left-counit-path ≡ id
     comonoid-right-counit-law : comonoid-right-counit-path ≡ id
 
