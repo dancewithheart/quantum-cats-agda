@@ -1,3 +1,4 @@
+{-# OPTIONS --exact-split --safe #-}
 module QuantumCat.DaggerCategory where
 
 open import QuantumCat.Common using (Type; Universe; usuc; _umax_)
