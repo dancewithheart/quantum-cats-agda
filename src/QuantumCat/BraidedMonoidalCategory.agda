@@ -1,3 +1,4 @@
+{-# OPTIONS --exact-split --safe #-}
 module QuantumCat.BraidedMonoidalCategory where
 
 open import Agda.Builtin.Equality using (_≡_)
@@ -42,20 +43,27 @@ record BraidedMonoidalCategory
   field -- operations
     braiding : {X Y : Obj} -> Iso C (X ⊗O Y) (Y ⊗O X)
 
-  B : {X Y : Obj} -> (X ⊗O Y) => (Y ⊗O X)
-  B = to braiding
+  β : {X Y : Obj} -> (X ⊗O Y) => (Y ⊗O X)
+  β = to braiding
 
   field  -- laws
-    hexagon1 : {X Y Z : Obj} ->
-      B{X}{Y ⊗O Z}
+    braiding-natural : {X1 X2 Y1 Y2 : Obj} ->
+      (f : X1 => X2) ->
+      (g : Y1 => Y2) ->
+      β{X1}{Y1} >>> (g ⊗H f)
         ≡
-      a⁻¹{X}{Y}{Z} >>> ( B{X}{Y} ⊗H id{Z} )
+      (f ⊗H g) >>> β{X2}{Y2}
+    
+    hexagon1 : {X Y Z : Obj} ->
+      β{X}{Y ⊗O Z}
+        ≡
+      a⁻¹{X}{Y}{Z} >>> ( β{X}{Y} ⊗H id{Z} )
         >>> a{Y}{X}{Z}
-        >>> ( id{Y} ⊗H B{X}{Z} ) >>> a⁻¹{Y}{Z}{X}
+        >>> ( id{Y} ⊗H β{X}{Z} ) >>> a⁻¹{Y}{Z}{X}
  
     hexagon2 : {X Y Z : Obj} ->
-      B{X ⊗O Y}{Z}
+      β{X ⊗O Y}{Z}
         ≡
-      a{X}{Y}{Z} >>> ( id{X} ⊗H B{Y}{Z} ) >>> a⁻¹{X}{Z}{Y}
-        >>> ( B{X}{Z} ⊗H id{Y} )
+      a{X}{Y}{Z} >>> ( id{X} ⊗H β{Y}{Z} ) >>> a⁻¹{X}{Z}{Y}
+        >>> ( β{X}{Z} ⊗H id{Y} )
         >>> a{Z}{X}{Y}
